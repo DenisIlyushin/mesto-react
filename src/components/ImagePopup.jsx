@@ -8,13 +8,13 @@ export default function ImagePopup(
   return (
     <div
       className={
-        `popup popup_type_${ popupType } 
-      ${ isOpen ? 'popup_opened' : '' }`
+        `popup popup_type_${popupType} 
+      ${isOpen ? 'popup_opened' : ''}`
       } id="showMesto"
     >
       <div className="popup__container-mesto">
         <button
-          onClick={ onClose }
+          onClick={onClose}
           className="popup__close-button" type="button"
         />
         <img className="popup__image-popup" src="#" alt="#"/>
