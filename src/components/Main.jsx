@@ -1,6 +1,10 @@
 import {useEffect, useState} from 'react';
 import api from '../utils/api.js'
 
+// предотвращение двойных запросов при отрисовке начальных
+// компонентов на dev-сервере при StrictMode === true
+let intialized = false
+
 export default function Main(
   {
     onUserAvatarEdit,
@@ -10,7 +14,7 @@ export default function Main(
     onMestoShow
   }
 ) {
-  let intialized = false
+
   const [user, setUser] = useState('')
 
   useEffect(() => {
