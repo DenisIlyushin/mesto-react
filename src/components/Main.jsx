@@ -1,3 +1,6 @@
+import {useEffect, useState} from 'react';
+import api from '../utils/api.js'
+
 export default function Main(
   {
     onUserAvatarEdit,
@@ -6,20 +9,43 @@ export default function Main(
     onMestoDelete,
     onMestoShow
   }
-  ) {
+) {
+  let intialized = false
+  const [user, setUser] = useState('')
+
+  useEffect(() => {
+    // предотвращение двойных запросов при отрисовке начальных
+    // компонентов на dev-сервере при StrictMode === true
+    if (!intialized) {
+      intialized = true
+      Promise.all([api.getUserInfo(), api.getCards()])
+        .then(([userInfo, cards]) => {
+          setUser({
+            id: userInfo._id,
+            name: userInfo.name,
+            job: userInfo.about,
+            avatar: userInfo.avatar
+          });
+        })
+        .catch(console.log);
+    }
+  }, [])
+
 
   return (
     <main className="content">
       <section className="profile" id="profile">
         <div className="profile__avatar-container">
-          <img className="profile__avatar" src="#" alt="Аватар пользователя"/>
+          <img
+            src={user.avatar}
+            className="profile__avatar" alt="Аватар пользователя"/>
           <button
             onClick={onUserAvatarEdit}
             className="profile__avatar-edit-button" type="button"></button>
         </div>
         <div className="profile__info">
-          <h1 className="profile__user-name"></h1>
-          <p className="profile__user-job"></p>
+          <h1 className="profile__user-name">{user.name}</h1>
+          <p className="profile__user-job">{user.about}</p>
           <button
             onClick={onUserProfileEdit}
             className=" profile__edit-button" type="button"></button>
