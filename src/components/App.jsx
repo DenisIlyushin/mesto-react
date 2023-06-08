@@ -11,11 +11,12 @@ import api from '../utils/api.js';
 let intialized = false
 
 function App() {
+  //обработка попапов
   const [isUpdateAvatarPopupOpen, setIsUpdateAvatarPopupOpen] = useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddMestoPopupOpen, setIsAddMestoPopupOpen] = useState(false);
   const [isDeleteMestoPopupOpen, setIsDeleteMestoPopupOpen] = useState(false);
-  const [isShowMestoPopupOpen, setIsShowMestoPopupOpen] = useState(false);
+  //обработка данных
   const [user, setUser] = useState({});
   const [initialCards, setInitialCards] = useState([]);
   const [selectedCard, setSelectedCard] = useState({});
@@ -45,7 +46,6 @@ function App() {
     setIsEditProfilePopupOpen(false);
     setIsAddMestoPopupOpen(false);
     setIsDeleteMestoPopupOpen(false);
-    setIsShowMestoPopupOpen(false);
     setSelectedCard({})
   }
 
@@ -65,11 +65,6 @@ function App() {
     setIsDeleteMestoPopupOpen(true)
   }
 
-  function handleShowMestoPopup(card) {
-    setIsShowMestoPopupOpen(true);
-    setSelectedCard(card)
-  }
-
   return (
     <>
       <Header/>
@@ -80,7 +75,7 @@ function App() {
         onUserProfileEdit={handleEditProfilePopup}
         onMestoAdd={handleAddMestoPopup}
         onMestoDelete={handleDeleteMestoPopup}
-        onMestoShow={handleShowMestoPopup}
+        onMestoShow={setSelectedCard}
       />
       <Footer/>
       <PopupWithForm
@@ -147,7 +142,6 @@ function App() {
       <ImagePopup
         popupType={'delete-mesto'}
         card={selectedCard}
-        isOpen={isShowMestoPopupOpen}
         onClose={closeAllPopups}
       />
     </>

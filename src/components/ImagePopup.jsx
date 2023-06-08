@@ -2,10 +2,11 @@ export default function ImagePopup(
   {
     popupType,
     card,
-    isOpen,
     onClose
   }
 ) {
+  const isOpen = card.link ? 'popup_opened' : ''
+
   return (
     <div
       className={
