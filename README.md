@@ -28,7 +28,8 @@
 ## Нужные ссылки
 
 **Посмотреть онлайн**
-[можно по ссылке](https://denisilyushin.github.io/mesto/)
+[можно было бы по ссылке](https://denisilyushin.github.io/mesto-react//), 
+но пока, увы, не работает
 
 **Figma**
 
