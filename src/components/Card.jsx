@@ -14,6 +14,7 @@ export default function Card(
   }
 
   function handleLikeClick() {
+    // в задании нет обработки, пока поставил заглушку
     console.log('Лайк/Дизлайк')
   }
 
@@ -22,7 +23,8 @@ export default function Card(
       <button
         onClick={handleCardDelete}
         className="mesto__delete-button"
-        type="button"/>
+        type="button"
+      />
       <img
         src={card.link}
         alt={card.name}
