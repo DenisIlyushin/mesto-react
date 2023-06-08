@@ -1,12 +1,9 @@
-import {useEffect, useState} from 'react';
-import api from '../utils/api.js'
-
-// предотвращение двойных запросов при отрисовке начальных
-// компонентов на dev-сервере при StrictMode === true
-let intialized = false
+import Card from './Card.jsx';
 
 export default function Main(
   {
+    user,
+    cards,
     onUserAvatarEdit,
     onUserProfileEdit,
     onMestoAdd,
@@ -14,27 +11,6 @@ export default function Main(
     onMestoShow
   }
 ) {
-
-  const [user, setUser] = useState('')
-
-  useEffect(() => {
-    // предотвращение двойных запросов при отрисовке начальных
-    // компонентов на dev-сервере при StrictMode === true
-    if (!intialized) {
-      intialized = true
-      Promise.all([api.getUserInfo(), api.getCards()])
-        .then(([userInfo, cards]) => {
-          setUser({
-            id: userInfo._id,
-            name: userInfo.name,
-            job: userInfo.about,
-            avatar: userInfo.avatar
-          });
-        })
-        .catch(console.log);
-    }
-  }, [])
-
 
   return (
     <main className="content">
@@ -60,6 +36,14 @@ export default function Main(
       </section>
       <section className="places" id="places">
         <ul className="places__list">
+          {cards.map((mesto) => (
+          <Card
+            key={mesto._id}
+            card={mesto}
+            onShow={onMestoShow}
+            onDelete={onMestoDelete}
+          />
+          ))}
         </ul>
       </section>
     </main>

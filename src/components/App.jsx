@@ -2,8 +2,13 @@ import Header from './Header.jsx';
 import Footer from './Footer.jsx';
 import Main from './Main.jsx';
 import PopupWithForm from './PopupWithForm.jsx';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import ImagePopup from './ImagePopup.jsx';
+import api from '../utils/api.js';
+
+// предотвращение двойных запросов при отрисовке начальных
+// компонентов на dev-сервере при StrictMode === true
+let intialized = false
 
 function App() {
   const [isUpdateAvatarPopupOpen, setIsUpdateAvatarPopupOpen] = useState(false);
@@ -11,13 +16,37 @@ function App() {
   const [isAddMestoPopupOpen, setIsAddMestoPopupOpen] = useState(false);
   const [isDeleteMestoPopupOpen, setIsDeleteMestoPopupOpen] = useState(false);
   const [isShowMestoPopupOpen, setIsShowMestoPopupOpen] = useState(false);
+  const [user, setUser] = useState({});
+  const [initialCards, setInitialCards] = useState([]);
+  const [selectedCard, setSelectedCard] = useState({});
+
+
+  useEffect(() => {
+    // предотвращение двойных запросов при отрисовке начальных
+    // компонентов на dev-сервере при StrictMode === true
+    if (!intialized) {
+      intialized = true
+      Promise.all([api.getUserInfo(), api.getCards()])
+        .then(([userInfo, cards]) => {
+          setUser({
+            id: userInfo._id,
+            name: userInfo.name,
+            job: userInfo.about,
+            avatar: userInfo.avatar
+          });
+          setInitialCards(cards);
+        })
+        .catch(console.log);
+    }
+  }, [])
 
   function closeAllPopups() {
     setIsUpdateAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddMestoPopupOpen(false);
     setIsDeleteMestoPopupOpen(false);
-    setIsShowMestoPopupOpen(false)
+    setIsShowMestoPopupOpen(false);
+    setSelectedCard({})
   }
 
   function handleUpdateAvatarPopup() {
@@ -36,14 +65,17 @@ function App() {
     setIsDeleteMestoPopupOpen(true)
   }
 
-  function handleShowMestoPopup() {
-    setIsShowMestoPopupOpen(true)
+  function handleShowMestoPopup(card) {
+    setIsShowMestoPopupOpen(true);
+    setSelectedCard(card)
   }
 
   return (
     <>
       <Header/>
       <Main
+        user={user}
+        cards={initialCards}
         onUserAvatarEdit={handleUpdateAvatarPopup}
         onUserProfileEdit={handleEditProfilePopup}
         onMestoAdd={handleAddMestoPopup}
@@ -114,23 +146,10 @@ function App() {
       />
       <ImagePopup
         popupType={'delete-mesto'}
+        card={selectedCard}
         isOpen={isShowMestoPopupOpen}
         onClose={closeAllPopups}
       />
-
-      <template className="template template_type_mesto" id="mesto">
-        <li className="mesto">
-          <button className="mesto__delete-button" type="button"></button>
-          <img className="mesto__image" src="#" alt="#"/>
-          <div className="mesto__description">
-            <h2 className="mesto__heading"></h2>
-            <div className="mesto__like-container">
-              <button className="mesto__like-button" type="button"></button>
-              <span className="mesto__like-count">0</span>
-            </div>
-          </div>
-        </li>
-      </template>
     </>
   );
 }

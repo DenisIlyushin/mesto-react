@@ -1,6 +1,7 @@
 export default function ImagePopup(
   {
     popupType,
+    card,
     isOpen,
     onClose
   }
@@ -17,8 +18,12 @@ export default function ImagePopup(
           onClick={onClose}
           className="popup__close-button" type="button"
         />
-        <img className="popup__image-popup" src="#" alt="#"/>
-        <h2 className="popup__heading-popup"></h2>
+        <img
+          src={card.link}
+          alt={card.name}
+          className="popup__image-popup"
+        />
+        <h2 className="popup__heading-popup">{card.name}</h2>
       </div>
     </div>
   )
