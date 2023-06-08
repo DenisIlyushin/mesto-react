@@ -6,10 +6,6 @@ import {useEffect, useState} from 'react';
 import ImagePopup from './ImagePopup.jsx';
 import api from '../utils/api.js';
 
-// предотвращение двойных запросов при отрисовке начальных
-// компонентов на dev-сервере при StrictMode === true
-let intialized = false
-
 function App() {
   //обработка попапов
   const [isUpdateAvatarPopupOpen, setIsUpdateAvatarPopupOpen] = useState(false);
@@ -23,22 +19,12 @@ function App() {
 
 
   useEffect(() => {
-    // предотвращение двойных запросов при отрисовке начальных
-    // компонентов на dev-сервере при StrictMode === true
-    if (!intialized) {
-      intialized = true
-      Promise.all([api.getUserInfo(), api.getCards()])
-        .then(([userInfo, cards]) => {
-          setUser({
-            id: userInfo._id,
-            name: userInfo.name,
-            job: userInfo.about,
-            avatar: userInfo.avatar
-          });
-          setInitialCards(cards);
-        })
-        .catch(console.log);
-    }
+    Promise.all([api.getUserInfo(), api.getCards()])
+      .then(([userInfo, cards]) => {
+        setUser(userInfo);
+        setInitialCards(cards);
+      })
+      .catch(console.log);
   }, [])
 
   function closeAllPopups() {
@@ -123,13 +109,13 @@ function App() {
           <input className="form__input form__input_type_mesto-heading"
                  id="mestoName" name="name" type="text"
                  placeholder="Название" required minLength="2" maxLength="30"/>
-            <span className="form__input-error mestoName-error"></span>
+          <span className="form__input-error mestoName-error"></span>
         </label>
         <label className="form__input-label">
           <input className="form__input form__input_type_mesto-url" id="mestoUrl"
                  name="link" type="url" placeholder="Ссылка на картинку"
                  required/>
-            <span className="form__input-error mestoUrl-error"></span>
+          <span className="form__input-error mestoUrl-error"></span>
         </label>
       </PopupWithForm>
       <PopupWithForm
