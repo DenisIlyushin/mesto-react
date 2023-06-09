@@ -2,9 +2,8 @@ import Header from './Header.jsx';
 import Footer from './Footer.jsx';
 import Main from './Main.jsx';
 import PopupWithForm from './PopupWithForm.jsx';
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 import ImagePopup from './ImagePopup.jsx';
-import api from '../utils/api.js';
 
 function App() {
   //обработка попапов
