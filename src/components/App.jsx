@@ -13,19 +13,7 @@ function App() {
   const [isAddMestoPopupOpen, setIsAddMestoPopupOpen] = useState(false);
   const [isDeleteMestoPopupOpen, setIsDeleteMestoPopupOpen] = useState(false);
   //обработка данных
-  const [user, setUser] = useState({});
-  const [initialCards, setInitialCards] = useState([]);
   const [selectedCard, setSelectedCard] = useState({});
-
-
-  useEffect(() => {
-    Promise.all([api.getUserInfo(), api.getCards()])
-      .then(([userInfo, cards]) => {
-        setUser(userInfo);
-        setInitialCards(cards);
-      })
-      .catch(console.log);
-  }, [])
 
   function closeAllPopups() {
     setIsUpdateAvatarPopupOpen(false);
@@ -55,8 +43,6 @@ function App() {
     <>
       <Header/>
       <Main
-        user={user}
-        cards={initialCards}
         onUserAvatarEdit={handleUpdateAvatarPopup}
         onUserProfileEdit={handleEditProfilePopup}
         onMestoAdd={handleAddMestoPopup}

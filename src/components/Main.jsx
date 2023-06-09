@@ -1,9 +1,9 @@
 import Card from './Card.jsx';
+import api from "../utils/api";
+import {useEffect, useState} from "react";
 
 export default function Main(
   {
-    user,
-    cards,
     onUserAvatarEdit,
     onUserProfileEdit,
     onMestoAdd,
@@ -11,6 +11,17 @@ export default function Main(
     onMestoShow
   }
 ) {
+  const [user, setUser] = useState({});
+  const [initialCards, setInitialCards] = useState([]);
+
+  useEffect(() => {
+    Promise.all([api.getUserInfo(), api.getCards()])
+      .then(([userInfo, cards]) => {
+        setUser(userInfo);
+        setInitialCards(cards);
+      })
+      .catch(console.log);
+  }, [])
 
   return (
     <main className="content">
@@ -40,7 +51,7 @@ export default function Main(
       </section>
       <section className="places" id="places">
         <ul className="places__list">
-          {cards.map((mesto) => (
+          {initialCards.map((mesto) => (
           <Card
             key={mesto._id}
             card={mesto}
