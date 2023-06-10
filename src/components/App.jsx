@@ -57,9 +57,14 @@ function App() {
         onClose={closeAllPopups}
       >
         <label className="form__input-label">
-          <input className="form__input form__input_type_source" id="userAvatar"
-                 name="avatar" type="url" placeholder="Ссылка на изображение"
-                 required minLength="2"/>
+          <input
+            className="form__input form__input_type_source"
+            id="userAvatar"
+            name="avatar"
+            type="url"
+            placeholder="Ссылка на изображение"
+            required minLength="2"
+          />
           <span className="form__input-error userAvatar-error"></span>
         </label>
       </PopupWithForm>
@@ -71,15 +76,29 @@ function App() {
         onClose={closeAllPopups}
       >
         <label className="form__input-label">
-          <input className="form__input form__input_type_username" id="userName"
-                 name="name" type="text" placeholder="Ваше имя?" required
-                 minLength="2" maxLength="40"/>
+          <input
+            className="form__input form__input_type_username"
+            id="userName"
+            name="name"
+            type="text"
+            placeholder="Ваше имя?"
+            required
+            minLength="2"
+            maxLength="40"
+          />
           <span className="form__input-error userName-error"></span>
         </label>
         <label className="form__input-label">
-          <input className="form__input form__input_type_user-job" id="userJob"
-                 name="job" type="text" placeholder="Чем занимаетесь?"
-                 required minLength="2" maxLength="200"/>
+          <input
+            className="form__input form__input_type_user-job"
+            id="userJob"
+            name="job"
+            type="text"
+            placeholder="Чем занимаетесь?"
+            required
+            minLength="2"
+            maxLength="200"
+          />
           <span className="form__input-error userJob-error"></span>
         </label>
       </PopupWithForm>
@@ -91,15 +110,27 @@ function App() {
         onClose={closeAllPopups}
       >
         <label className="form__input-label">
-          <input className="form__input form__input_type_mesto-heading"
-                 id="mestoName" name="name" type="text"
-                 placeholder="Название" required minLength="2" maxLength="30"/>
+          <input
+            className="form__input form__input_type_mesto-heading"
+            id="mestoName"
+            name="name"
+            type="text"
+            placeholder="Название"
+            required
+            minLength="2"
+            maxLength="30"
+          />
           <span className="form__input-error mestoName-error"></span>
         </label>
         <label className="form__input-label">
-          <input className="form__input form__input_type_mesto-url" id="mestoUrl"
-                 name="link" type="url" placeholder="Ссылка на картинку"
-                 required/>
+          <input
+            className="form__input form__input_type_mesto-url"
+            id="mestoUrl"
+            name="link"
+            type="url"
+            placeholder="Ссылка на картинку"
+            required
+          />
           <span className="form__input-error mestoUrl-error"></span>
         </label>
       </PopupWithForm>

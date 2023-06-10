@@ -17,7 +17,8 @@ export default function ImagePopup(
       <div className="popup__container-mesto">
         <button
           onClick={onClose}
-          className="popup__close-button" type="button"
+          className="popup__close-button"
+          type="button"
         />
         <img
           src={card.link}

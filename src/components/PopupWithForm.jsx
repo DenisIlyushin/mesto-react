@@ -19,13 +19,21 @@ export default function PopupWithForm(
       <div className="popup__container">
         <button
           onClick={onClose}
-          className="popup__close-button" type="button"
+          className="popup__close-button"
+          type="button"
         />
-        <form className="form" name={popupType} autoComplete="off"
-              noValidate>
+        <form
+          className="form"
+          name={popupType}
+          autoComplete="off"
+          noValidate
+        >
           <h2 className="form__title">{popupTitle}</h2>
           {children}
-          <button className="form__submit-button" type="submit">
+          <button
+            className="form__submit-button"
+            type="submit"
+          >
             {submitText}
           </button>
         </form>

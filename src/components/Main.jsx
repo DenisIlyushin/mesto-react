@@ -25,15 +25,20 @@ export default function Main(
 
   return (
     <main className="content">
-      <section className="profile" id="profile">
+      <section
+        className="profile"
+        id="profile"
+      >
         <div className="profile__avatar-container">
           <img
             src={user.avatar}
-            className="profile__avatar" alt="Аватар пользователя"
+            className="profile__avatar"
+            alt="Аватар пользователя"
           />
           <button
             onClick={onUserAvatarEdit}
-            className="profile__avatar-edit-button" type="button"
+            className="profile__avatar-edit-button"
+            type="button"
           />
         </div>
         <div className="profile__info">
@@ -41,15 +46,20 @@ export default function Main(
           <p className="profile__user-job">{user.about}</p>
           <button
             onClick={onUserProfileEdit}
-            className=" profile__edit-button" type="button"
+            className=" profile__edit-button"
+            type="button"
           />
         </div>
         <button
           onClick={onMestoAdd}
-          className="profile__add-button" type="button"
+          className="profile__add-button"
+          type="button"
         />
       </section>
-      <section className="places" id="places">
+      <section
+        className="places"
+        id="places"
+      >
         <ul className="places__list">
           {initialCards.map((mesto) => (
           <Card
