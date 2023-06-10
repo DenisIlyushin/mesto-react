@@ -111,7 +111,7 @@ function App() {
         onClose={closeAllPopups}
       />
       <ImagePopup
-        popupType={'delete-mesto'}
+        popupType={'show-mesto'}
         card={selectedCard}
         onClose={closeAllPopups}
       />
