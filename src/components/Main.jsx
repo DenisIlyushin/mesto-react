@@ -31,7 +31,7 @@ export default function Main(
       >
         <div className="profile__avatar-container">
           <img
-            src={user.avatar}
+            src={user.avatar ?? '#'}
             className="profile__avatar"
             alt="Аватар пользователя"
           />
@@ -42,8 +42,8 @@ export default function Main(
           />
         </div>
         <div className="profile__info">
-          <h1 className="profile__user-name">{user.name}</h1>
-          <p className="profile__user-job">{user.about}</p>
+          <h1 className="profile__user-name">{user.name ?? ' '}</h1>
+          <p className="profile__user-job">{user.about ?? ' '}</p>
           <button
             onClick={onUserProfileEdit}
             className=" profile__edit-button"

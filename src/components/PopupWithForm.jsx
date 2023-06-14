@@ -1,3 +1,5 @@
+import useCloseOnEsc from '../utils/useCloseOnEsc.jsx';
+
 export default function PopupWithForm(
   {
     popupType,
@@ -9,11 +11,13 @@ export default function PopupWithForm(
   }
 ) {
 
+  useCloseOnEsc({ isOpen, onClose })
+
   return (
     <div
       className={
         `popup popup_type_${popupType} 
-      ${isOpen ? 'popup_opened' : ''}`
+      ${isOpen && 'popup_opened'}`
       } id="updateAvatar"
     >
       <div className="popup__container">
