@@ -8,6 +8,7 @@ export default function PopupWithForm(
     children,
     isOpen,
     onClose,
+    onSubmit
   }
 ) {
 
@@ -31,6 +32,7 @@ export default function PopupWithForm(
           name={popupType}
           autoComplete="off"
           noValidate
+          onSubmit={onSubmit}
         >
           <h2 className="form__title">{popupTitle}</h2>
           {children}

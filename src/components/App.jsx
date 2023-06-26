@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { CurrentUserContext } from '../context/CurrentUserContext';
 import ImagePopup from './ImagePopup.jsx';
 import api from '../utils/api.js';
+import EditProfilePopup from './EditProfilePopup.jsx';
 
 function App() {
   //обработка попапов
@@ -69,8 +70,18 @@ function App() {
 
   function handleDeleteMesto(card) {
     api.deleteCard(card._id).then(() => {
-      setInitialCards((state) => state.filter(c => c._id != (card._id)))
+      setInitialCards((state) => state.filter(c => c._id !== (card._id)))
     })
+      .catch(console.log)
+  }
+
+  function handleProfileUpdate(info) {
+    api.setUserInfo(info)
+      .then(data => {
+          setUser(data);
+          closeAllPopups()
+        }
+      )
       .catch(console.log)
   }
 
@@ -107,40 +118,11 @@ function App() {
           <span className="form__input-error userAvatar-error"></span>
         </label>
       </PopupWithForm>
-      <PopupWithForm
-        popupType={'edit-profile'}
-        popupTitle={'Редактировать профиль'}
-        submitText={'Сохранить'}
+      <EditProfilePopup
         isOpen={isEditProfilePopupOpen}
         onClose={closeAllPopups}
-      >
-        <label className="form__input-label">
-          <input
-            className="form__input form__input_type_username"
-            id="userName"
-            name="name"
-            type="text"
-            placeholder="Ваше имя?"
-            required
-            minLength="2"
-            maxLength="40"
-          />
-          <span className="form__input-error userName-error"></span>
-        </label>
-        <label className="form__input-label">
-          <input
-            className="form__input form__input_type_user-job"
-            id="userJob"
-            name="job"
-            type="text"
-            placeholder="Чем занимаетесь?"
-            required
-            minLength="2"
-            maxLength="200"
-          />
-          <span className="form__input-error userJob-error"></span>
-        </label>
-      </PopupWithForm>
+        onUpdate={handleProfileUpdate}
+      />
       <PopupWithForm
         popupType={'add-mesto'}
         popupTitle={'Новое место'}
