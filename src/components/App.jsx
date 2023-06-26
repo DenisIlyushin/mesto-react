@@ -2,11 +2,12 @@ import Header from './Header.jsx';
 import Footer from './Footer.jsx';
 import Main from './Main.jsx';
 import PopupWithForm from './PopupWithForm.jsx';
-import { useEffect, useState } from 'react';
-import { CurrentUserContext } from '../context/CurrentUserContext';
+import {useEffect, useState} from 'react';
+import {CurrentUserContext} from '../context/CurrentUserContext';
 import ImagePopup from './ImagePopup.jsx';
 import api from '../utils/api.js';
 import EditProfilePopup from './EditProfilePopup.jsx';
+import EditAvatarPopup from './EditAvatarPopup.jsx';
 
 function App() {
   //обработка попапов
@@ -77,11 +78,20 @@ function App() {
 
   function handleProfileUpdate(info) {
     api.setUserInfo(info)
-      .then(data => {
-          setUser(data);
+      .then(userInfo => {
+          setUser(userInfo);
           closeAllPopups()
         }
       )
+      .catch(console.log)
+  }
+
+  function handleAvatarUpdate(info) {
+    api.setUserAvatar(info)
+      .then(avatar => {
+        setUser(avatar)
+        closeAllPopups()
+      })
       .catch(console.log)
   }
 
@@ -99,25 +109,11 @@ function App() {
         cards={initialCards}
       />
       <Footer/>
-      <PopupWithForm
-        popupType={'update-avatar'}
-        popupTitle={'Обновить аватар'}
-        submitText={'Обновить'}
+      <EditAvatarPopup
         isOpen={isUpdateAvatarPopupOpen}
         onClose={closeAllPopups}
-      >
-        <label className="form__input-label">
-          <input
-            className="form__input form__input_type_source"
-            id="userAvatar"
-            name="avatar"
-            type="url"
-            placeholder="Ссылка на изображение"
-            required minLength="2"
-          />
-          <span className="form__input-error userAvatar-error"></span>
-        </label>
-      </PopupWithForm>
+        onUpdate={handleAvatarUpdate}
+      />
       <EditProfilePopup
         isOpen={isEditProfilePopupOpen}
         onClose={closeAllPopups}
