@@ -47,8 +47,31 @@ function App() {
     setIsAddMestoPopupOpen(true)
   }
 
-  function handleDeleteMestoPopup() {
-    setIsDeleteMestoPopupOpen(true)
+  // function handleDeleteMestoPopup() {
+  //   setIsDeleteMestoPopupOpen(true)
+  // }
+
+  function handleLikeClick(card) {
+    api.likeCard(card._id)
+      .then((newCard) => {
+        setInitialCards((state) => state.map((c) => c._id === card._id ? newCard : c))
+      })
+      .catch(console.log)
+  }
+
+  function handleDislikeClick(card) {
+    api.dislikeCard(card._id)
+      .then((newCard) => {
+        setInitialCards((state) => state.map(c => c._id === card._id ? newCard : c))
+      })
+      .catch(console.log)
+  }
+
+  function handleDeleteMesto(card) {
+    api.deleteCard(card._id).then(() => {
+      setInitialCards((state) => state.filter(c => c._id != (card._id)))
+    })
+      .catch(console.log)
   }
 
   return (
@@ -58,8 +81,10 @@ function App() {
         onUserAvatarEdit={handleUpdateAvatarPopup}
         onUserProfileEdit={handleEditProfilePopup}
         onMestoAdd={handleAddMestoPopup}
-        onMestoDelete={handleDeleteMestoPopup}
+        onMestoDelete={handleDeleteMesto}
         onMestoShow={setSelectedCard}
+        onMestoLike={handleLikeClick}
+        onMestoDislike={handleDislikeClick}
         cards={initialCards}
       />
       <Footer/>

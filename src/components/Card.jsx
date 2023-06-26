@@ -6,6 +6,8 @@ export default function Card(
     card,
     onDelete,
     onShow,
+    onLike,
+    onDislike,
   }
 ) {
   const currentUser = useContext(CurrentUserContext);
@@ -13,16 +15,20 @@ export default function Card(
   const isLiked = card.likes.some(i => i._id === currentUser._id);
 
   function handleCardDelete() {
-    onDelete()
+    onDelete(card)
   }
 
   function handleCardClick() {
     onShow(card)
   }
 
-  function handleLikeClick() {
-    // в задании нет обработки, пока поставил заглушку
-    console.log('Лайк/Дизлайк')
+  function handleLikeButtonClick() {
+    if (isLiked) {
+      console.log('Уже полайкал')
+      onDislike(card)
+    } else {
+      onLike(card)
+    }
   }
 
   return (
@@ -43,7 +49,7 @@ export default function Card(
         <h2 className="mesto__heading">{card.name ?? ' '}</h2>
         <div className="mesto__like-container">
           <button
-            onClick={handleLikeClick}
+            onClick={handleLikeButtonClick}
             className={`mesto__like-button ${isLiked && 'mesto__like-button_liked'}`}
             type="button/"
           />

@@ -10,6 +10,8 @@ export default function Main(
     onMestoAdd,
     onMestoDelete,
     onMestoShow,
+    onMestoLike,
+    onMestoDislike,
     cards
   }
 ) {
@@ -60,6 +62,8 @@ export default function Main(
             card={mesto}
             onShow={onMestoShow}
             onDelete={onMestoDelete}
+            onLike={onMestoLike}
+            onDislike={onMestoDislike}
           />
           ))}
         </ul>
