@@ -1,3 +1,6 @@
+import {CurrentUserContext} from '../context/CurrentUserContext.jsx';
+import {useContext} from 'react';
+
 export default function Card(
   {
     card,
@@ -5,6 +8,10 @@ export default function Card(
     onShow,
   }
 ) {
+  const currentUser = useContext(CurrentUserContext);
+  const isOwn = card.owner._id === currentUser._id;
+  const isLiked = card.likes.some(i => i._id === currentUser._id);
+
   function handleCardDelete() {
     onDelete()
   }
@@ -20,11 +27,12 @@ export default function Card(
 
   return (
     <li className="mesto">
-      <button
+      {isOwn && <button
         onClick={handleCardDelete}
         className="mesto__delete-button"
         type="button"
       />
+      }
       <img
         src={card.link ?? '#'}
         alt={card.name ?? ' '}
@@ -36,7 +44,7 @@ export default function Card(
         <div className="mesto__like-container">
           <button
             onClick={handleLikeClick}
-            className="mesto__like-button"
+            className={`mesto__like-button ${isLiked && 'mesto__like-button_liked'}`}
             type="button/"
           />
           <span className="mesto__like-count">{card.likes.length ?? 0}</span>

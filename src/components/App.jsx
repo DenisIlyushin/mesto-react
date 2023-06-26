@@ -2,8 +2,10 @@ import Header from './Header.jsx';
 import Footer from './Footer.jsx';
 import Main from './Main.jsx';
 import PopupWithForm from './PopupWithForm.jsx';
-import {useState} from 'react';
+import { useEffect, useState } from 'react';
+import { CurrentUserContext } from '../context/CurrentUserContext';
 import ImagePopup from './ImagePopup.jsx';
+import api from '../utils/api.js';
 
 function App() {
   //обработка попапов
@@ -13,6 +15,17 @@ function App() {
   const [isDeleteMestoPopupOpen, setIsDeleteMestoPopupOpen] = useState(false);
   //обработка данных
   const [selectedCard, setSelectedCard] = useState({});
+  const [initialCards, setInitialCards] = useState([]);
+  // контекст пользователя
+  const [user, setUser] = useState({});
+  useEffect(() => {
+    Promise.all([api.getUserInfo(), api.getCards()])
+      .then(([userInfo, cards]) => {
+        setUser(userInfo);
+        setInitialCards(cards);
+      })
+      .catch(console.log);
+  }, [])
 
   function closeAllPopups() {
     setIsUpdateAvatarPopupOpen(false);
@@ -39,7 +52,7 @@ function App() {
   }
 
   return (
-    <>
+    <CurrentUserContext.Provider value={user}>
       <Header/>
       <Main
         onUserAvatarEdit={handleUpdateAvatarPopup}
@@ -47,6 +60,7 @@ function App() {
         onMestoAdd={handleAddMestoPopup}
         onMestoDelete={handleDeleteMestoPopup}
         onMestoShow={setSelectedCard}
+        cards={initialCards}
       />
       <Footer/>
       <PopupWithForm
@@ -146,7 +160,7 @@ function App() {
         card={selectedCard}
         onClose={closeAllPopups}
       />
-    </>
+    </ CurrentUserContext.Provider>
   );
 }
 

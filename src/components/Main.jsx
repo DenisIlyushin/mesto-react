@@ -1,6 +1,7 @@
 import Card from './Card.jsx';
-import api from "../utils/api";
-import {useEffect, useState} from "react";
+import { CurrentUserContext } from '../context/CurrentUserContext.jsx';
+import { useContext } from "react";
+
 
 export default function Main(
   {
@@ -8,20 +9,12 @@ export default function Main(
     onUserProfileEdit,
     onMestoAdd,
     onMestoDelete,
-    onMestoShow
+    onMestoShow,
+    cards
   }
 ) {
-  const [user, setUser] = useState({});
-  const [initialCards, setInitialCards] = useState([]);
 
-  useEffect(() => {
-    Promise.all([api.getUserInfo(), api.getCards()])
-      .then(([userInfo, cards]) => {
-        setUser(userInfo);
-        setInitialCards(cards);
-      })
-      .catch(console.log);
-  }, [])
+  const currentUser = useContext(CurrentUserContext);
 
   return (
     <main className="content">
@@ -31,7 +24,7 @@ export default function Main(
       >
         <div className="profile__avatar-container">
           <img
-            src={user.avatar ?? '#'}
+            src={currentUser.avatar ?? '#'}
             className="profile__avatar"
             alt="Аватар пользователя"
           />
@@ -42,8 +35,8 @@ export default function Main(
           />
         </div>
         <div className="profile__info">
-          <h1 className="profile__user-name">{user.name ?? ' '}</h1>
-          <p className="profile__user-job">{user.about ?? ' '}</p>
+          <h1 className="profile__user-name">{currentUser.name ?? 'Ден Илюшин'}</h1>
+          <p className="profile__user-job">{currentUser.about ?? 'Студент Я.Практикума'}</p>
           <button
             onClick={onUserProfileEdit}
             className=" profile__edit-button"
@@ -61,7 +54,7 @@ export default function Main(
         id="places"
       >
         <ul className="places__list">
-          {initialCards.map((mesto) => (
+          {cards.map((mesto) => (
           <Card
             key={mesto._id}
             card={mesto}
