@@ -6,9 +6,10 @@ export default function useCloseOnEsc({ isOpen, onClose }) {
       if (event.key === 'Escape') { onClose() }
     }
 
-    if (!isOpen) { return }
+    if (!isOpen) {
+      return
+    }
     document.addEventListener('keyup', handleCloseOnEsc)
-
     return () => {
       document.removeEventListener('keyup', handleCloseOnEsc)
     }
