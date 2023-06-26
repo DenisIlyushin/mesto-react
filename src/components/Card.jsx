@@ -24,7 +24,6 @@ export default function Card(
 
   function handleLikeButtonClick() {
     if (isLiked) {
-      console.log('Уже полайкал')
       onDislike(card)
     } else {
       onLike(card)
