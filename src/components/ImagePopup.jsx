@@ -8,7 +8,15 @@ export default function ImagePopup(
   }
 ) {
   const isOpen = card.link && 'popup_opened'
+
   useCloseOnEsc({ isOpen, onClose })
+
+  function handleClose(event) {
+    if (event.target.classList.contains('popup_opened')
+      || event.target.classList.contains('popup__close-button')) {
+      return onClose()
+    }
+  }
 
   return (
     <div
@@ -16,10 +24,11 @@ export default function ImagePopup(
         `popup popup_type_${popupType} 
       ${isOpen ? 'popup_opened' : ''}`
       } id="showMesto"
+      onClick={handleClose}
     >
       <div className="popup__container-mesto">
         <button
-          onClick={onClose}
+          onClick={handleClose}
           className="popup__close-button"
           type="button"
         />

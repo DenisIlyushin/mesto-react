@@ -14,16 +14,24 @@ export default function PopupWithForm(
 
   useCloseOnEsc({ isOpen, onClose })
 
+  function handleClose(event) {
+    if (event.target.classList.contains('popup_opened')
+      || event.target.classList.contains('popup__close-button')) {
+      return onClose()
+    }
+  }
+
   return (
     <div
       className={
         `popup popup_type_${popupType} 
       ${isOpen && 'popup_opened'}`
       } id="updateAvatar"
+      onClick={handleClose}
     >
       <div className="popup__container">
         <button
-          onClick={onClose}
+          onClick={handleClose}
           className="popup__close-button"
           type="button"
         />
