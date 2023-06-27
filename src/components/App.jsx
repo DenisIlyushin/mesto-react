@@ -9,6 +9,7 @@ import api from '../utils/api.js';
 import EditProfilePopup from './EditProfilePopup.jsx';
 import EditAvatarPopup from './EditAvatarPopup.jsx';
 import AddMestoPopup from './AddMestoPopup.jsx';
+import ConfirmMestoDeletePopup from './ConfirmMestoDeletePopup.jsx';
 
 function App() {
   //обработка попапов
@@ -20,6 +21,7 @@ function App() {
   const [selectedCard, setSelectedCard] = useState({});
   const [initialCards, setInitialCards] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [cardToDelete, setCardToDelete] = useState({});
   // контекст пользователя
   const [user, setUser] = useState({});
   useEffect(() => {
@@ -51,10 +53,6 @@ function App() {
     setIsAddMestoPopupOpen(true)
   }
 
-  // function handleDeleteMestoPopup() {
-  //   setIsDeleteMestoPopupOpen(true)
-  // }
-
   function handleLikeClick(card) {
     api.likeCard(card._id)
       .then((newCard) => {
@@ -71,11 +69,21 @@ function App() {
       .catch(console.log)
   }
 
+  function handleDeleteConfirm(card) {
+    setCardToDelete(card);
+    setIsDeleteMestoPopupOpen(true)
+  }
+
   function handleDeleteMesto(card) {
-    api.deleteCard(card._id).then(() => {
-      setInitialCards((state) => state.filter(c => c._id !== (card._id)))
-    })
+    setIsLoading(true)
+    api.deleteCard(card._id)
+      .then(() => {
+          setInitialCards((state) => state.filter(c => c._id !== (card._id)));
+          closeAllPopups()
+        }
+      )
       .catch(console.log)
+      .finally(() => setIsLoading(false))
   }
 
   function handleProfileUpdate(info) {
@@ -119,7 +127,7 @@ function App() {
         onUserAvatarEdit={handleUpdateAvatarPopup}
         onUserProfileEdit={handleEditProfilePopup}
         onMestoAdd={handleAddMestoPopup}
-        onMestoDelete={handleDeleteMesto}
+        onMestoDelete={handleDeleteConfirm}
         onMestoShow={setSelectedCard}
         onMestoLike={handleLikeClick}
         onMestoDislike={handleDislikeClick}
@@ -142,12 +150,12 @@ function App() {
         onSubmit={handleMestoAdd}
         processStatus={isLoading}
       />
-      <PopupWithForm
-        popupType={'delete-mesto'}
-        popupTitle={'Вы уверены?'}
-        submitText={'Да'}
+      <ConfirmMestoDeletePopup
         isOpen={isDeleteMestoPopupOpen}
         onClose={closeAllPopups}
+        onSubmit={handleDeleteMesto}
+        card={cardToDelete}
+        processStatus={isLoading}
       />
       <ImagePopup
         popupType={'show-mesto'}
