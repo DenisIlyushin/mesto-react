@@ -20,6 +20,7 @@ export default function PopupWithForm(
         `popup popup_type_${popupType} 
       ${isOpen && 'popup_opened'}`
       } id="updateAvatar"
+      onClick={onClose}
     >
       <div className="popup__container">
         <button
