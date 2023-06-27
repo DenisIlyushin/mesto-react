@@ -8,6 +8,7 @@ import ImagePopup from './ImagePopup.jsx';
 import api from '../utils/api.js';
 import EditProfilePopup from './EditProfilePopup.jsx';
 import EditAvatarPopup from './EditAvatarPopup.jsx';
+import AddMestoPopup from './AddMestoPopup.jsx';
 
 function App() {
   //обработка попапов
@@ -89,7 +90,16 @@ function App() {
   function handleAvatarUpdate(info) {
     api.setUserAvatar(info)
       .then(avatar => {
-        setUser(avatar)
+        setUser(avatar);
+        closeAllPopups()
+      })
+      .catch(console.log)
+  }
+
+  function handleMestoAdd(data) {
+    api.createMesto(data)
+      .then((card) => {
+        setInitialCards([card, ...initialCards]);
         closeAllPopups()
       })
       .catch(console.log)
@@ -119,38 +129,11 @@ function App() {
         onClose={closeAllPopups}
         onUpdate={handleProfileUpdate}
       />
-      <PopupWithForm
-        popupType={'add-mesto'}
-        popupTitle={'Новое место'}
-        submitText={'Создать'}
+      <AddMestoPopup
         isOpen={isAddMestoPopupOpen}
         onClose={closeAllPopups}
-      >
-        <label className="form__input-label">
-          <input
-            className="form__input form__input_type_mesto-heading"
-            id="mestoName"
-            name="name"
-            type="text"
-            placeholder="Название"
-            required
-            minLength="2"
-            maxLength="30"
-          />
-          <span className="form__input-error mestoName-error"></span>
-        </label>
-        <label className="form__input-label">
-          <input
-            className="form__input form__input_type_mesto-url"
-            id="mestoUrl"
-            name="link"
-            type="url"
-            placeholder="Ссылка на картинку"
-            required
-          />
-          <span className="form__input-error mestoUrl-error"></span>
-        </label>
-      </PopupWithForm>
+        onSubmit={handleMestoAdd}
+      />
       <PopupWithForm
         popupType={'delete-mesto'}
         popupTitle={'Вы уверены?'}
