@@ -16,7 +16,6 @@ export default function ImagePopup(
         `popup popup_type_${popupType} 
       ${isOpen ? 'popup_opened' : ''}`
       } id="showMesto"
-      onClick={onClose}
     >
       <div className="popup__container-mesto">
         <button

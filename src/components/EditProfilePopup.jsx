@@ -2,7 +2,7 @@ import PopupWithForm from './PopupWithForm.jsx';
 import {CurrentUserContext} from '../context/CurrentUserContext.jsx';
 import {useContext, useEffect, useState} from 'react';
 
-export default function EditProfilePopup({ isOpen, onClose, onUpdate }) {
+export default function EditProfilePopup({ isOpen, onClose, onUpdate, processStatus }) {
   const currentUser = useContext(CurrentUserContext);
   const [name, setName] = useState('');
   const [job, setJob] = useState('');
@@ -24,7 +24,7 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdate }) {
     <PopupWithForm
       popupType={'edit-profile'}
       popupTitle={'Редактировать профиль'}
-      submitText={'Сохранить'}
+      submitText={processStatus ? 'Сохранение' : 'Сохранить'}
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}

@@ -1,7 +1,7 @@
 import PopupWithForm from './PopupWithForm.jsx';
 import {useEffect, useState} from 'react';
 
-export default function AddMestoPopup({ isOpen, onClose, onSubmit }) {
+export default function AddMestoPopup({ isOpen, onClose, onSubmit, processStatus }) {
   const [name, setName] = useState('')
   const [link, setLink] = useState('#')
 
@@ -22,7 +22,7 @@ export default function AddMestoPopup({ isOpen, onClose, onSubmit }) {
     <PopupWithForm
       popupType={'add-mesto'}
       popupTitle={'Новое место'}
-      submitText={'Создать'}
+      submitText={processStatus ? 'Сохранение' : 'Создать'}
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}

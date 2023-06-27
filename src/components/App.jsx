@@ -19,6 +19,7 @@ function App() {
   //обработка данных
   const [selectedCard, setSelectedCard] = useState({});
   const [initialCards, setInitialCards] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   // контекст пользователя
   const [user, setUser] = useState({});
   useEffect(() => {
@@ -27,7 +28,7 @@ function App() {
         setUser(userInfo);
         setInitialCards(cards);
       })
-      .catch(console.log);
+      .catch(console.log)
   }, [])
 
   function closeAllPopups() {
@@ -78,6 +79,7 @@ function App() {
   }
 
   function handleProfileUpdate(info) {
+    setIsLoading(true)
     api.setUserInfo(info)
       .then(userInfo => {
           setUser(userInfo);
@@ -85,24 +87,29 @@ function App() {
         }
       )
       .catch(console.log)
+      .finally(() => setIsLoading(false))
   }
 
   function handleAvatarUpdate(info) {
+    setIsLoading(true)
     api.setUserAvatar(info)
       .then(avatar => {
         setUser(avatar);
         closeAllPopups()
       })
       .catch(console.log)
+      .finally(() => setIsLoading(false))
   }
 
   function handleMestoAdd(data) {
+    setIsLoading(true)
     api.createMesto(data)
       .then((card) => {
         setInitialCards([card, ...initialCards]);
         closeAllPopups()
       })
       .catch(console.log)
+      .finally(() => setIsLoading(false))
   }
 
   return (
@@ -133,6 +140,7 @@ function App() {
         isOpen={isAddMestoPopupOpen}
         onClose={closeAllPopups}
         onSubmit={handleMestoAdd}
+        processStatus={isLoading}
       />
       <PopupWithForm
         popupType={'delete-mesto'}
