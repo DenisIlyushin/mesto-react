@@ -1,7 +1,6 @@
 import Header from './Header.jsx';
 import Footer from './Footer.jsx';
 import Main from './Main.jsx';
-import PopupWithForm from './PopupWithForm.jsx';
 import {useEffect, useState} from 'react';
 import {CurrentUserContext} from '../context/CurrentUserContext';
 import ImagePopup from './ImagePopup.jsx';
