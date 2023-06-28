@@ -17,12 +17,12 @@ function App() {
   const [isAddMestoPopupOpen, setIsAddMestoPopupOpen] = useState(false);
   const [isDeleteMestoPopupOpen, setIsDeleteMestoPopupOpen] = useState(false);
   //обработка данных
-  const [selectedCard, setSelectedCard] = useState({});
+  const [selectedCard, setSelectedCard] = useState(null);
   const [initialCards, setInitialCards] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [cardToDelete, setCardToDelete] = useState({});
+  const [cardToDelete, setCardToDelete] = useState(null);
   // контекст пользователя
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(null);
   useEffect(() => {
     Promise.all([api.getUserInfo(), api.getCards()])
       .then(([userInfo, cards]) => {
@@ -37,7 +37,7 @@ function App() {
     setIsEditProfilePopupOpen(false);
     setIsAddMestoPopupOpen(false);
     setIsDeleteMestoPopupOpen(false);
-    setSelectedCard({})
+    setSelectedCard(null)
   }
 
   function handleUpdateAvatarPopup() {
@@ -77,10 +77,9 @@ function App() {
     setIsLoading(true)
     api.deleteCard(card._id)
       .then(() => {
-          setInitialCards((state) => state.filter(c => c._id !== (card._id)));
-          closeAllPopups()
-        }
-      )
+        setInitialCards((state) => state.filter(c => c._id !== (card._id)));
+        closeAllPopups()
+      })
       .catch(console.log)
       .finally(() => setIsLoading(false))
   }
@@ -89,10 +88,9 @@ function App() {
     setIsLoading(true)
     api.setUserInfo(info)
       .then(userInfo => {
-          setUser(userInfo);
-          closeAllPopups()
-        }
-      )
+        setUser(userInfo);
+        closeAllPopups()
+      })
       .catch(console.log)
       .finally(() => setIsLoading(false))
   }
@@ -119,50 +117,48 @@ function App() {
       .finally(() => setIsLoading(false))
   }
 
-  return (
-    <CurrentUserContext.Provider value={user}>
-      <Header/>
-      <Main
-        onUserAvatarEdit={handleUpdateAvatarPopup}
-        onUserProfileEdit={handleEditProfilePopup}
-        onMestoAdd={handleAddMestoPopup}
-        onMestoDelete={handleDeleteConfirm}
-        onMestoShow={setSelectedCard}
-        onMestoLike={handleLikeClick}
-        onMestoDislike={handleDislikeClick}
-        cards={initialCards}
-      />
-      <Footer/>
-      <EditAvatarPopup
-        isOpen={isUpdateAvatarPopupOpen}
-        onClose={closeAllPopups}
-        onUpdate={handleAvatarUpdate}
-      />
-      <EditProfilePopup
-        isOpen={isEditProfilePopupOpen}
-        onClose={closeAllPopups}
-        onUpdate={handleProfileUpdate}
-      />
-      <AddMestoPopup
-        isOpen={isAddMestoPopupOpen}
-        onClose={closeAllPopups}
-        onSubmit={handleMestoAdd}
-        processStatus={isLoading}
-      />
-      <ConfirmMestoDeletePopup
-        isOpen={isDeleteMestoPopupOpen}
-        onClose={closeAllPopups}
-        onSubmit={handleDeleteMesto}
-        card={cardToDelete}
-        processStatus={isLoading}
-      />
-      <ImagePopup
-        popupType={'show-mesto'}
-        card={selectedCard}
-        onClose={closeAllPopups}
-      />
-    </ CurrentUserContext.Provider>
-  );
+  return (<CurrentUserContext.Provider value={user}>
+    <Header/>
+    <Main
+      onUserAvatarEdit={handleUpdateAvatarPopup}
+      onUserProfileEdit={handleEditProfilePopup}
+      onMestoAdd={handleAddMestoPopup}
+      onMestoDelete={handleDeleteConfirm}
+      onMestoShow={setSelectedCard}
+      onMestoLike={handleLikeClick}
+      onMestoDislike={handleDislikeClick}
+      cards={initialCards}
+    />
+    <Footer/>
+    <EditAvatarPopup
+      isOpen={isUpdateAvatarPopupOpen}
+      onClose={closeAllPopups}
+      onUpdate={handleAvatarUpdate}
+    />
+    <EditProfilePopup
+      isOpen={isEditProfilePopupOpen}
+      onClose={closeAllPopups}
+      onUpdate={handleProfileUpdate}
+    />
+    <AddMestoPopup
+      isOpen={isAddMestoPopupOpen}
+      onClose={closeAllPopups}
+      onSubmit={handleMestoAdd}
+      processStatus={isLoading}
+    />
+    <ConfirmMestoDeletePopup
+      isOpen={isDeleteMestoPopupOpen}
+      onClose={closeAllPopups}
+      onSubmit={handleDeleteMesto}
+      card={cardToDelete}
+      processStatus={isLoading}
+    />
+    <ImagePopup
+      popupType={'show-mesto'}
+      card={selectedCard}
+      onClose={closeAllPopups}
+    />
+  </ CurrentUserContext.Provider>);
 }
 
 export default App;

@@ -7,7 +7,7 @@ export default function ImagePopup(
     onClose
   }
 ) {
-  const isOpen = card.link && 'popup_opened'
+  let isOpen = !!card
 
   useCloseOnEsc({ isOpen, onClose })
 
@@ -33,11 +33,11 @@ export default function ImagePopup(
           type="button"
         />
         <img
-          src={card.link ?? '#'}
-          alt={card.name ?? ' '}
+          src={isOpen ? card.link : '#'}
+          alt={isOpen ? card.name : ' '}
           className="popup__image-popup"
         />
-        <h2 className="popup__heading-popup">{card.name ?? ' '}</h2>
+        <h2 className="popup__heading-popup">{isOpen ? card.name : ' '}</h2>
       </div>
     </div>
   )

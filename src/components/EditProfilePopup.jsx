@@ -8,8 +8,8 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdate, processSta
   const [job, setJob] = useState('');
 
   useEffect(() => {
-    setName(currentUser.name);
-    setJob(currentUser.about);
+    setName(currentUser ? currentUser.name : '');
+    setJob(currentUser ? currentUser.about : '');
   }, [currentUser, isOpen]);
 
   function handleSubmit(event) {

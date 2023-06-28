@@ -33,7 +33,6 @@ export default function EditAvatarPopup({ isOpen, onClose, onUpdate, processStat
           placeholder="Ссылка на изображение"
           required minLength="2"
           ref={avatar}
-          onChange={() => avatar.current.value}
         />
         <span className="form__input-error userAvatar-error"></span>
       </label>

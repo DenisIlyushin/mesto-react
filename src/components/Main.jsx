@@ -26,7 +26,7 @@ export default function Main(
       >
         <div className="profile__avatar-container">
           <img
-            src={currentUser.avatar ?? '#'}
+            src={currentUser ? currentUser.avatar : '#'}
             className="profile__avatar"
             alt="Аватар пользователя"
           />
@@ -37,8 +37,12 @@ export default function Main(
           />
         </div>
         <div className="profile__info">
-          <h1 className="profile__user-name">{currentUser.name ?? 'Ден Илюшин'}</h1>
-          <p className="profile__user-job">{currentUser.about ?? 'Студент Я.Практикума'}</p>
+          <h1 className="profile__user-name">
+            {currentUser ? currentUser.name : 'Ден Илюшин'}
+          </h1>
+          <p className="profile__user-job">
+            {currentUser ? currentUser.about : 'Студент Я.Практикума'}
+          </p>
           <button
             onClick={onUserProfileEdit}
             className=" profile__edit-button"
