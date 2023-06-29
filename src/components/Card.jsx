@@ -50,7 +50,7 @@ export default function Card(
           <button
             onClick={handleLikeButtonClick}
             className={`mesto__like-button ${isLiked && 'mesto__like-button_liked'}`}
-            type="button/"
+            type="button"
           />
           <span className="mesto__like-count">{card.likes.length ?? 0}</span>
         </div>
